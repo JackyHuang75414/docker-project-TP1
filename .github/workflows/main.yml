@@ -9,6 +9,21 @@ on:
 jobs:
   test-backend:
     runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: testdb
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
     steps:
       - uses: actions/checkout@v4
       
@@ -19,50 +34,22 @@ jobs:
           distribution: 'temurin'
           cache: maven
       
-      # 合併構建、測試和 SonarCloud 分析
-      - name: Build, test and analyze with SonarCloud
+      - name: Build and test with Maven
+        run: mvn clean verify
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
+          SPRING_DATASOURCE_USERNAME: testuser
+          SPRING_DATASOURCE_PASSWORD: testpass
+      
+      - name: SonarCloud analysis
         run: |
-          mvn -B clean verify sonar:sonar \
+          mvn -B sonar:sonar \
             -Dsonar.projectKey=JackyHuang75414_docker-project-TP1 \
             -Dsonar.organization=JackyHuang75414 \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-  build-and-push-docker-image:
-    needs: test-backend
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-24.04
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Login to DockerHub
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-      
-      # 構建和推送後端鏡像
-      - name: Build image and push backend
-        uses: docker/build-push-action@v6
-        with:
-          context: .  # 使用項目根目錄作為構建上下文
-          dockerfile: backend/Dockerfile
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:latest
-          push: ${{ github.ref == 'refs/heads/main' }}
-      
-      # 構建和推送數據庫鏡像
-      - name: Build image and push database
-        uses: docker/build-push-action@v6
-        with:
-          context: ./database
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-database:latest
-          push: ${{ github.ref == 'refs/heads/main' }}
-      
-      # 構建和推送 httpd 鏡像
-      - name: Build image and push httpd
-        uses: docker/build-push-action@v6
-        with:
-          context: ./httpd
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:latest
-          push: ${{ github.ref == 'refs/heads/main' }}
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
+          SPRING_DATASOURCE_USERNAME: testuser
+          SPRING_DATASOURCE_PASSWORD: testpass
