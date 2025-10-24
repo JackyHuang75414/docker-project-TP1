@@ -5,8 +5,7 @@ WORKDIR $MYAPP_HOME
 
 RUN apk add --no-cache maven
 
-COPY pom.xml .
-COPY src ./src
+COPY . .
 
 RUN mvn package -DskipTests
 
