@@ -1,7 +1,6 @@
 name: CI devops 2025
 
 on:
-  # 在 main 和 develop 分支的推送時觸發
   push:
     branches: [ main, develop ]
   pull_request:
@@ -11,10 +10,8 @@ jobs:
   test-backend:
     runs-on: ubuntu-24.04
     steps:
-      # 檢出代碼
       - uses: actions/checkout@v4
       
-      # 設置 JDK 21
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -22,25 +19,19 @@ jobs:
           distribution: 'temurin'
           cache: maven
       
-      # 使用 Maven 構建和測試
-      - name: Build and test with Maven
-        run: mvn clean verify
-        
-      # SonarCloud 代碼質量分析
-      - name: SonarCloud analysis
+      # 合併構建、測試和 SonarCloud 分析
+      - name: Build, test and analyze with SonarCloud
         run: |
-          mvn -B verify sonar:sonar \
+          mvn -B clean verify sonar:sonar \
             -Dsonar.projectKey=JackyHuang75414_docker-project-TP1 \
-            -Dsonar.organization=jackyhuang75414 \
+            -Dsonar.organization=JackyHuang75414 \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-            --file ./pom.xml
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          
   build-and-push-docker-image:
     needs: test-backend
-    # 只在 main 分支運行
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     
@@ -48,7 +39,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      # 登錄到 DockerHub
       - name: Login to DockerHub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       
@@ -56,7 +46,8 @@ jobs:
       - name: Build image and push backend
         uses: docker/build-push-action@v6
         with:
-          context: ./backend
+          context: .  # 使用項目根目錄作為構建上下文
+          dockerfile: backend/Dockerfile
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:latest
           push: ${{ github.ref == 'refs/heads/main' }}
       
