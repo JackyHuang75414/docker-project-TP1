@@ -18,6 +18,11 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21' # Alternative distribution options are available.
+      - name: Verify Java
+        run: |
+          java -XshowSettings:properties -version
+          javac -version
+          mvn -version
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
