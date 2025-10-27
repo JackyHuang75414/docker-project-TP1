@@ -18,7 +18,7 @@ jobs:
           distribution: 'temurin'
       
       - name: Build and test with Maven
-        run: cd backend && mvn clean verify -DskipTests
+        run: cd backend && mvn clean verify
 
 
   sonarcloud-analysis:
@@ -32,6 +32,9 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+
+      - name: Compile project for SonarCloud
+        run: cd backend && mvn compile -DskipTests
 
       - name: SonarCloud analysis
         run: |
