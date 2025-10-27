@@ -11,6 +11,10 @@
 	<groupId>fr.takima.training</groupId>
 	<artifactId>simpleapi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>demo</module>
+	</modules>
 	<name>simpleapi</name>
 	<description>tp1</description>
 	<url/>
@@ -28,7 +32,11 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-		 <sonar.organization>jackyhuang75414</sonar.organization>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
+		<maven.compiler.release>21</maven.compiler.release>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<sonar.organization>jackyhuang75414</sonar.organization>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -57,7 +65,17 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<release>21</release>
+					<source>21</source>
+					<target>21</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+			<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
