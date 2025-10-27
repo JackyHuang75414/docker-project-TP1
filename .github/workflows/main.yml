@@ -4,26 +4,10 @@ on:
   push:
     branches: [ main, develop ]
   pull_request:
-    branches: [ main, develop ]
 
 jobs:
   test-backend:
     runs-on: ubuntu-24.04
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_DB: testdb
-          POSTGRES_USER: testuser
-          POSTGRES_PASSWORD: testpass
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-    
     steps:
       - uses: actions/checkout@v4
       
@@ -32,20 +16,23 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: maven
       
       - name: Build and test with Maven
         run: mvn clean verify
-        env:
-          DATABASE_HOST: localhost
-          DATABASE_PORT: 5432
-          DATABASE_NAME: testdb
-          DATABASE_USER: testuser
-          DATABASE_PASSWORD: testpass
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
-          SPRING_DATASOURCE_USERNAME: testuser
-          SPRING_DATASOURCE_PASSWORD: testpass
-      
+
+
+  sonarcloud-analysis:
+    needs: test-backend
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
       - name: SonarCloud analysis
         run: |
           mvn -B sonar:sonar \
@@ -53,19 +40,9 @@ jobs:
             -Dsonar.organization=JackyHuang75414 \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DATABASE_HOST: localhost
-          DATABASE_PORT: 5432
-          DATABASE_NAME: testdb
-          DATABASE_USER: testuser
-          DATABASE_PASSWORD: testpass
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
-          SPRING_DATASOURCE_USERNAME: testuser
-          SPRING_DATASOURCE_PASSWORD: testpass
 
   build-and-push-docker-image:
-    needs: test-backend
+    needs: [test-backend, sonarcloud-analysis]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     
@@ -80,7 +57,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          dockerfile: backend/Dockerfile
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:latest
           push: ${{ github.ref == 'refs/heads/main' }}
       
