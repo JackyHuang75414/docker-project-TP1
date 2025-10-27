@@ -37,7 +37,7 @@ jobs:
         run: |
           mvn -B sonar:sonar \
             -Dsonar.projectKey=JackyHuang75414_docker-project-TP1 \
-            -Dsonar.organization=JackyHuang75414 \
+            -Dsonar.organization=jackyhuang75414 \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
