@@ -1,0 +1,12 @@
+---
+- name: 部署 Docker 化应用
+  hosts: prod
+  gather_facts: true
+  become: true
+
+  roles:
+    - docker
+    - network
+    - database
+    - backend
+    - frontend

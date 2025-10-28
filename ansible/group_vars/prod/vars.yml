@@ -1,0 +1,4 @@
+---
+# 非敏感变量
+backend_image: "huang199864/tp-devops-simple-api:latest"
+frontend_image: "huang199864/tp-devops-httpd:latest"

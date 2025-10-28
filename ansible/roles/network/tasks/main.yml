@@ -1,0 +1,6 @@
+---
+- name: 创建 Docker 网络
+  docker_network:
+    name: app-network
+    driver: bridge
+    state: present

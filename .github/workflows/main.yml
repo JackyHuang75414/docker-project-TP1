@@ -76,3 +76,34 @@ jobs:
           context: ./httpd
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:latest
           push: ${{ github.ref == 'refs/heads/master' }}
+
+
+  deploy-to-production:
+    needs: build-and-push-docker-image
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Ansible
+        run: |
+          sudo apt update
+          sudo apt install -y ansible
+
+      - name: Setup SSH key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/deploy_key
+          chmod 400 /tmp/deploy_key
+
+      - name: Deploy with Ansible
+        run: |
+          cd ansible
+          echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > .vault_pass
+          chmod 600 .vault_pass
+          ansible-playbook -i inventories/setup.yml site.yml \
+            --vault-password-file .vault_pass \
+            --private-key /tmp/deploy_key
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: False
