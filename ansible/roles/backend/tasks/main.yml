@@ -9,6 +9,7 @@
   docker_container:
     name: backend
     image: "{{ backend_image }}"
+    pull: yes
     state: started
     restart_policy: always
     networks:

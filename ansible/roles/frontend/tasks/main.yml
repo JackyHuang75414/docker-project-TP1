@@ -9,6 +9,7 @@
     name: frontend
     image: "{{ frontend_image }}"
     state: started
+    pull: yes
     restart_policy: always
     networks:
       - name: app-network

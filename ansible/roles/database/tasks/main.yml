@@ -4,6 +4,7 @@
     name: database
     image: huang199864/tp-devops-database:latest
     state: started
+    pull: yes
     restart_policy: always
     networks:
       - name: app-network
