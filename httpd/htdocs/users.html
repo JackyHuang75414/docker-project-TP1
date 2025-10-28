@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用戶管理 - CRM Vision</title>
+    <style>
+        /* 現有的所有樣式保持不變 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ... 您現有的所有CSS樣式 ... */
+
+        /* 添加導航欄樣式 */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* 調整header的top padding以適應固定導航欄 */
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<!-- 添加導航欄 -->
+<nav>
+    <div class="nav-container">
+        <div class="logo">CRM Vision</div>
+        <ul class="nav-links">
+            <li><a href="index.html">首頁</a></li>
+            <li><a href="users.html" class="active">用戶管理</a></li>
+            <li><a href="about.html">關於我們</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <header>
+        <h1>Système de gestion des utilisateurs</h1>
+        <p>Gérez vos données utilisateur : ajoutez, modifiez ou supprimez des informations utilisateur.</p>
+    </header>
+
+    <!-- 現有的用戶管理內容保持不變 -->
+    <div class="main-content">
+        <!-- ... 您現有的用戶管理HTML內容 ... -->
+    </div>
+</div>
+
+<!-- 添加頁腳 -->
+<footer style="text-align: center; padding: 40px 20px; color: white; margin-top: 60px;">
+    <p>&copy; 2024 CRM Vision. 保留所有權利。</p>
+</footer>
+
+<!-- 現有的JavaScript代碼保持不變 -->
+<script>
+    // ... 您現有的所有JavaScript代碼 ...
+</script>
+</body>
+</html>

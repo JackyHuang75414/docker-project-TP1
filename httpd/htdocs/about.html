@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>關於我們 - CRM Vision</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 導航欄樣式 */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-top: 40px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .about-content {
+            display: grid;
+            gap: 40px;
+        }
+
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .mission-card, .vision-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .team-section {
+            margin-top: 40px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .member-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #667eea;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="nav-container">
+        <div class="logo">CRM Vision</div>
+        <ul class="nav-links">
+            <li><a href="index.html">首頁</a></li>
+            <li><a href="users.html">用戶管理</a></li>
+            <li><a href="about.html" class="active">關於我們</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="main-content">
+        <div class="page-header">
+            <h1>關於 CRM Vision</h1>
+            <p>致力於為企業提供最優質的客戶關係管理解決方案</p>
+        </div>
+
+        <div class="about-content">
+            <section>
+                <h2>我們的使命</h2>
+                <p>CRM Vision 致力於通過創新的技術解決方案，幫助企業建立更牢固的客戶關係，提升客戶滿意度，推動業務增長。</p>
+            </section>
+
+            <div class="mission-vision">
+                <div class="mission-card">
+                    <h3>🎯 使命</h3>
+                    <p>通過直觀易用的 CRM 系統，讓每個企業都能輕鬆管理客戶關係，實現數據驅動的決策。</p>
+                </div>
+
+                <div class="vision-card">
+                    <h3>🔭 願景</h3>
+                    <p>成為全球領先的客戶關係管理平台，幫助企業在數字化時代取得成功。</p>
+                </div>
+            </div>
+
+            <section>
+                <h2>我們的價值</h2>
+                <p>在 CRM Vision，我們相信技術應該服務於人。我們的系統設計以用戶體驗為核心，確保每個功能都能為您的業務帶來實質性的價值。</p>
+            </section>
+
+            <div class="team-section">
+                <h2>我們的團隊</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-avatar">👨‍💼</div>
+                        <h4>張經理</h4>
+                        <p>產品總監</p>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-avatar">👩‍💻</div>
+                        <h4>李工程師</h4>
+                        <p>技術負責人</p>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-avatar">👨‍🎨</div>
+                        <h4>王設計師</h4>
+                        <p>UI/UX 設計師</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 CRM Vision. 保留所有權利。</p>
+</footer>
+</body>
+</html>
